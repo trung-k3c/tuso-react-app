@@ -13,17 +13,29 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.zorbatzu.tusoreactapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.zorbatzu.tusoreactapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ac8e4d7f-222f-4633-86f5-f12fe67cd806"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ac8e4d7f-222f-4633-86f5-f12fe67cd806"
+    },
+    "owner": "zorbatzu",
+    "runtimeVersion": "1.0.0"
   }
 }

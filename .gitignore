@@ -35,3 +35,28 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+# dependencies
+/node_modules
+
+# Expo
+.expo
+.expo-shared
+
+# build output
+/dist
+/build
+/web-build
+
+# macOS
+.DS_Store
+
+# log files
+*.log
+
+# IDEs
+.vscode
+.idea
+
+# env
+.env
+
