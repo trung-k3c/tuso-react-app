@@ -1,28 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Button } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes/types';
-
-type TuviResultRouteProp = RouteProp<RootStackParamList, 'TuviResult'>;
+import { useUserContext } from '../../context/UserDataContext';
 
 export default function TuviResultScreen() {
-  const route = useRoute<TuviResultRouteProp>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { userData, setUserData } = useUserContext();
 
-  const { tuviData } = route.params;
+  useEffect(() => {
+    if (userData && !userData.tuvi) {
+      setUserData({ tuvi: { tuviDetails: { saoChieuMenh: ['Thái Âm', 'Thiên Cơ'] } } });
+    }
+  }, []);
+
+  if (!userData?.tuvi) return null;
+  const tuviData = userData.tuvi;
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Địa Duyên – Lá số Tử Vi</Text>
-      <Text style={styles.text}>Tên: {tuviData.basic.name}</Text>
-      <Text style={styles.text}>Ngày Giờ Sinh: {tuviData.basic.birthDate.toString()}</Text>
-      <Text style={styles.text}>Cung Mệnh: {tuviData.basic.birthHour}</Text>
-      <Text style={styles.text}>Mệnh Chủ: {tuviData.cungMenh}</Text>
-      <Text style={styles.text}>Sao chiếu mệnh: {tuviData.saoChieuMenh?.join(', ')}</Text>
+      <Text style={styles.text}>Tên: {userData?.name}</Text>
+      <Text style={styles.text}>Ngày Giờ Sinh: {userData?.birthDate.toString()}</Text>
+      <Text style={styles.text}>Giờ Sinh: {userData?.birthHour}</Text>
+      <Text style={styles.text}>Sao chiếu mệnh: {tuviData.tuviDetails.saoChieuMenh?.join(', ')}</Text>
 
-      <Button title="Luận giải AI" onPress={() => navigation.navigate('TuviInterpretation', { tuviData })}
-      />
+      <Button title="Luận giải AI" onPress={() => navigation.navigate('TuviInterpretation')} />
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Platform, TextInputProps } from 'react-native';
+import { Platform } from 'react-native';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
@@ -32,27 +32,6 @@ export default function InputInfoScreen() {
     'Hợi (21:00 - 23:00)' 
   ];
 
-  const xemBatTu = () => {
-    // MOCK CALL: Sau sẽ gọi API thật
-    const battuData = {
-      basic: { name, gender, birthDate, birthHour },
-      stems: ['Giáp', 'Tân', 'Canh', 'Mậu'],
-      branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'],
-    };
-    navigation.navigate('BattuResult', { battuData });
-  };
-
-  const xemTuVi = () => {
-    // MOCK CALL: Sau sẽ gọi API thật
-    const tuviData = {
-      basic: { name, gender, birthDate, birthHour },
-        cungMenh: 'Cấn',
-        menhChu: 'Thổ',
-        saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
-        tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
-    };
-    navigation.navigate('TuviResult', { tuviData });
-  };
 
   const handleStart = () => {
     setUserData({ name, gender, birthDate, birthHour });
