@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import BreathingDot from '../components/BreathingDot';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../types'; // sửa lại path cho đúng
+import { RootStackParamList } from '../routes/types'; // sửa lại path cho đúng
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 
