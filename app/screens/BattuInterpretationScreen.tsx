@@ -11,7 +11,7 @@ export default function BattuInterpretationScreen() {
   useEffect(() => {
     // Mock fetch GPT luận giải
     setTimeout(() => {
-      setResult(`🌿 ${battuData.name}, bạn mang mệnh “Giáp Tý” – người tiên phong, độc lập và giàu nội lực. Sự nghiệp sáng khi biết đi chậm mà chắc, tránh nóng vội...`);
+      setResult(`🌿 ${battuData.basic.name}, bạn mang mệnh “Giáp Tý” – người tiên phong, độc lập và giàu nội lực. Sự nghiệp sáng khi biết đi chậm mà chắc, tránh nóng vội...`);
     }, 2000);
   }, []);
 

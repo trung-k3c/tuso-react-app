@@ -1,5 +1,5 @@
 export type RootStackParamList = {
-  SplashScreen: undefined;
+  Splash: undefined;
   TramChanKhong: undefined;
   Onboarding: undefined;
   InputInfo: undefined;
@@ -7,6 +7,10 @@ export type RootStackParamList = {
   BattuInterpretation: { battuData: BattuData };
   TuviResult: { tuviData: TuviData };
   TuviInterpretation: { tuviData: TuviData };
+  Main: {
+    battuData: BattuData;
+    tuviData: TuviData;
+  }
   // thêm các màn khác nếu có
 };
 export type SplashScreenProps = {
@@ -15,24 +19,23 @@ export type SplashScreenProps = {
   };
 };
 
-export type BattuData = {
+export type UserData = {
   name: string;
   gender: string;
   birthDate: Date;
   birthHour: string;
-  stems: string[];
-  branches: string[];
+};
+
+export type BattuData = {
+  basic: UserData;
+  stems?: string[];
+  branches?: string[];
 };
 
 export type TuviData = {
-  name: string;
-  gender: string;
-  birthDate: Date;
-  birthHour: string;
-  tuviDetails: {
-    cungMenh: string,
-    menhChu: string,
-    saoChieuMenh: string[],
-    tongQuan: string,
-  }; // có thể là chuỗi mô tả hoặc đối tượng  
+  basic: UserData;
+  cungMenh?: string,
+  menhChu?: string,
+  saoChieuMenh?: string[],
+  tongQuan?: string,
 }

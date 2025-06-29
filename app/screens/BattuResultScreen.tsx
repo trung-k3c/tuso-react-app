@@ -13,12 +13,12 @@ export default function BattuResultScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Thiên Mệnh của {battuData.name}</Text>
-      <Text style={styles.title}>Ngày Sinh: {battuData.birthDate.toString()}</Text>
-      <Text style={styles.title}>Giờ Sinh: {battuData.birthHour}</Text>
+      <Text style={styles.title}>Thiên Mệnh của {battuData.basic.name}</Text>
+      <Text style={styles.title}>Ngày Sinh: {battuData.basic.birthDate.toString()}</Text>
+      <Text style={styles.title}>Giờ Sinh: {battuData.basic.birthHour}</Text>
       <Text style={styles.label}>Tứ trụ:</Text>
-      <Text style={styles.text}>Can: {battuData.stems.join(' - ')}</Text>
-      <Text style={styles.text}>Chi: {battuData.branches.join(' - ')}</Text>
+      <Text style={styles.text}>Can: {battuData.stems?.join(' - ')}</Text>
+      <Text style={styles.text}>Chi: {battuData.branches?.join(' - ')}</Text>
       <Button title="Luận giải AI" onPress={() => navigation.navigate('BattuInterpretation', { battuData })} />
     </View>
   );

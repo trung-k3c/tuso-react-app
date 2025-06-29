@@ -22,11 +22,11 @@ export default function TuviResultScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Địa Duyên – Lá số Tử Vi</Text>
-      <Text style={styles.text}>Tên: {tuviData.name}</Text>
-      <Text style={styles.text}>Ngày Giờ Sinh: {tuviData.birthDate.toString()}</Text>
-      <Text style={styles.text}>Cung Mệnh: {tuviData.birthHour}</Text>
-      <Text style={styles.text}>Mệnh Chủ: {tuviData.tuviDetails.cungMenh}</Text>
-      <Text style={styles.text}>Sao chiếu mệnh: {tuviData.tuviDetails.saoChieuMenh.join(', ')}</Text>
+      <Text style={styles.text}>Tên: {tuviData.basic.name}</Text>
+      <Text style={styles.text}>Ngày Giờ Sinh: {tuviData.basic.birthDate.toString()}</Text>
+      <Text style={styles.text}>Cung Mệnh: {tuviData.basic.birthHour}</Text>
+      <Text style={styles.text}>Mệnh Chủ: {tuviData.cungMenh}</Text>
+      <Text style={styles.text}>Sao chiếu mệnh: {tuviData.saoChieuMenh?.join(', ')}</Text>
 
       <Button
         title="Luận giải AI"

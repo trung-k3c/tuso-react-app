@@ -2,14 +2,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { slides } from '../data/slides';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../../routes/types'; // sửa lại path cho đúng
+import { RootStackParamList } from '../routes/types'; // sửa lại path cho đúng
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export default function OnboardingScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleDone = () => {
-    navigation.navigate('InputInfo'); // sẽ tạo màn này sau
+    navigation.navigate('InputInfo'); 
   };
 
   return (

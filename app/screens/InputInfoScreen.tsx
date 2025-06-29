@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../routes/types';
+import { RootStackParamList } from '../routes/types';
 
 export default function InputInfoScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -33,7 +33,7 @@ export default function InputInfoScreen() {
   const xemBatTu = () => {
     // MOCK CALL: Sau sẽ gọi API thật
     const battuData = {
-      name, gender, birthDate, birthHour,
+      basic: { name, gender, birthDate, birthHour },
       stems: ['Giáp', 'Tân', 'Canh', 'Mậu'],
       branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'],
     };
@@ -43,15 +43,31 @@ export default function InputInfoScreen() {
   const xemTuVi = () => {
     // MOCK CALL: Sau sẽ gọi API thật
     const tuviData = {
-      name, gender, birthDate, birthHour,
-      tuviDetails: {
+      basic: { name, gender, birthDate, birthHour },
         cungMenh: 'Cấn',
         menhChu: 'Thổ',
         saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
         tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
-      }
     };
     navigation.navigate('TuviResult', { tuviData });
+  };
+
+  const handleNext = () => {
+    const battuData = {
+      basic: { name, gender, birthDate, birthHour },
+      stems: ['Giáp', 'Tân', 'Canh', 'Mậu'],
+      branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'],
+    };
+
+    const tuviData = {
+      basic: { name, gender, birthDate, birthHour },
+        cungMenh: 'Cấn',
+        menhChu: 'Thổ',
+        saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
+        tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
+    };
+
+    navigation.navigate('Main', { battuData: battuData, tuviData: tuviData });
   };
 
   return (
@@ -106,8 +122,9 @@ export default function InputInfoScreen() {
         {canhGio.map(g => <Picker.Item key={g} label={g} value={g} />)}
       </Picker>
 
-      <Button title="Xem Thiên Mệnh" onPress={xemBatTu} />
-      <Button title="Xem Địa Duyên Mệnh" onPress={xemTuVi} />
+      {/* <Button title="Xem Thiên Mệnh" onPress={xemBatTu} />
+      <Button title="Xem Địa Duyên Mệnh" onPress={xemTuVi} /> */}
+      <Button title="Bắt đầu trải nghiệm" onPress={handleNext} />
     </View>
   );
 }
