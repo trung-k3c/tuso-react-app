@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, Button, ActivityIndicator, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../routes/types';
 import { useUserContext } from '../../context/UserDataContext';
 
 export default function TuviInterpretationScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const { userData, setUserData } = useUserContext();
   const [result, setResult] = useState('');
 
@@ -27,6 +31,16 @@ export default function TuviInterpretationScreen() {
     <View style={styles.container}>
       <Text style={styles.title}>Luận giải AI – Tử Vi</Text>
       {result ? <Text style={styles.text}>{result}</Text> : <ActivityIndicator />}
+
+      <Button
+        title="🔙 Quay về màn chính"
+        onPress={() =>
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Main' }],
+          })
+        }
+      />
     </View>
   );
 }
