@@ -1,26 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes/types';
-
-type BattuResultRouteProp = RouteProp<RootStackParamList, 'BattuResult'>;
+import { useUserContext } from '../../context/UserDataContext';
 
 export default function BattuResultScreen() {
-  const route = useRoute<BattuResultRouteProp>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { battuData } = route.params;
+  const { userData, setUserData } = useUserContext();
+
+  useEffect(() => {
+    if (userData && !userData.battu) {
+      setUserData({ battu: { stems: ['Giáp', 'Tân', 'Canh', 'Mậu'], branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'] } });
+    }
+  }, []);
+
+  if (!userData?.battu) return null;
+  const battuData = userData.battu;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Thiên Mệnh của {battuData.basic.name}</Text>
-      <Text style={styles.title}>Ngày Sinh: {battuData.basic.birthDate.toString()}</Text>
-      <Text style={styles.title}>Giờ Sinh: {battuData.basic.birthHour}</Text>
+      <Text style={styles.title}>Thiên Mệnh của {userData?.name}</Text>
+      <Text style={styles.title}>Ngày Sinh: {userData?.birthDate.toString()}</Text>
+      <Text style={styles.title}>Giờ Sinh: {userData?.birthHour}</Text>
       <Text style={styles.label}>Tứ trụ:</Text>
       <Text style={styles.text}>Can: {battuData.stems?.join(' - ')}</Text>
       <Text style={styles.text}>Chi: {battuData.branches?.join(' - ')}</Text>
-      
-      <Button title="Luận giải AI" onPress={() => navigation.navigate('BattuInterpretation', { battuData })} />
+
+      <Button title="Luận giải AI" onPress={() => navigation.navigate('BattuInterpretation')} />
     </View>
   );
 }

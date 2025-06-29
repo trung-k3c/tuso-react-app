@@ -1,48 +1,40 @@
 import React, { createContext, useState, useContext } from 'react';
 
-type UserData = {
+export type UserData = {
   name: string;
   gender: string;
   birthDate: Date;
   birthHour: string;
-};
-
-type BattuData = {
-  basic: UserData;
-  stems: string[];
-  branches: string[];
-  interpretation?: string;
-};
-
-type TuviData = {
-  basic: UserData;
-  tuviDetails: {
-    saoChieuMenh: string[];
-    [key: string]: any;
+  battu?: {
+    stems: string[];
+    branches: string[];
+    interpretation?: string;
   };
-  interpretation?: string;
+  tuvi?: {
+    tuviDetails: {
+      saoChieuMenh: string[];
+      [key: string]: any;
+    };
+    interpretation?: string;
+  };
 };
 
 type UserContextType = {
   userData: UserData | null;
-  setUserData: (data: UserData) => void;
-  battuData: BattuData | null;
-  setBattuData: (data: BattuData) => void;
-  tuviData: TuviData | null;
-  setTuviData: (data: TuviData) => void;
+  setUserData: (data: Partial<UserData>) => void;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [battuData, setBattuData] = useState<BattuData | null>(null);
-  const [tuviData, setTuviData] = useState<TuviData | null>(null);
+  const [userDataState, setUserDataState] = useState<UserData | null>(null);
+
+  const setUserData = (data: Partial<UserData>) => {
+    setUserDataState((prev) => ({ ...(prev ?? ({} as UserData)), ...data }));
+  };
 
   return (
-    <UserContext.Provider
-      value={{ userData, setUserData, battuData, setBattuData, tuviData, setTuviData }}
-    >
+    <UserContext.Provider value={{ userData: userDataState, setUserData }}>
       {children}
     </UserContext.Provider>
   );

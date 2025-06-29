@@ -3,10 +3,10 @@ export type RootStackParamList = {
   TramChanKhong: undefined;
   Onboarding: undefined;
   InputInfo: undefined;
-  BattuResult: { battuData: BattuData };
-  BattuInterpretation: { battuData: BattuData };
-  TuviResult: { tuviData: TuviData };
-  TuviInterpretation: { tuviData: TuviData };
+  BattuResult: undefined;
+  BattuInterpretation: undefined;
+  TuviResult: undefined;
+  TuviInterpretation: undefined;
   Main: undefined;
   // thêm các màn khác nếu có
 };
@@ -21,18 +21,16 @@ export type UserData = {
   gender: string;
   birthDate: Date;
   birthHour: string;
+  battu?: {
+    stems: string[];
+    branches: string[];
+    interpretation?: string;
+  };
+  tuvi?: {
+    tuviDetails: {
+      saoChieuMenh: string[];
+      [key: string]: any;
+    };
+    interpretation?: string;
+  };
 };
-
-export type BattuData = {
-  basic: UserData;
-  stems?: string[];
-  branches?: string[];
-};
-
-export type TuviData = {
-  basic: UserData;
-  cungMenh?: string,
-  menhChu?: string,
-  saoChieuMenh?: string[],
-  tongQuan?: string,
-}

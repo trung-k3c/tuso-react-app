@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -7,12 +7,10 @@ import { useUserContext } from '../../context/UserDataContext';
 
 export default function MainScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const { battuData, tuviData } = useUserContext();
-  const [hasBattuResult, setHasBattuResult] = useState(false);
-  const [hasTuviResult, setHasTuviResult] = useState(false);
+  const { userData, setUserData } = useUserContext();
 
   const handleTouchTramChanKhong = () => {
-    if (!hasBattuResult || !hasTuviResult) {
+    if (!userData?.battu || !userData?.tuvi) {
       Alert.alert('Thông báo', 'Bạn cần xem Thiên Mệnh và Địa Duyên trước khi gieo quẻ.');
     } else {
     //   navigation.navigate('DivinationScreen');
@@ -25,15 +23,15 @@ export default function MainScreen() {
       <Text style={styles.title}>Trạm Chân Không</Text>
 
       <View style={styles.buttonContainer}>
-        <Button title="Xem Thiên Mệnh (Bát Tự)" onPress={() => {
-          setHasBattuResult(true);
-          navigation.navigate('BattuResult', { battuData });
-        }} />
+        <Button
+          title="Xem Thiên Mệnh (Bát Tự)"
+          onPress={() => navigation.navigate('BattuResult')}
+        />
 
-        <Button title="Xem Địa Duyên (Tử Vi)" onPress={() => {
-          setHasTuviResult(true);
-          navigation.navigate('TuviResult', { tuviData });
-        }} />
+        <Button
+          title="Xem Địa Duyên (Tử Vi)"
+          onPress={() => navigation.navigate('TuviResult')}
+        />
       </View>
 
       <Button title="Gieo tại Trạm Chân Không" onPress={handleTouchTramChanKhong} />
