@@ -10,13 +10,6 @@ export default function TuviResultScreen() {
   const route = useRoute<TuviResultRouteProp>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  // const tuviData = {
-  //   name: 'Đinh Thị Tuyết',
-  //   birth: '25/5/1992 - giờ Tỵ',
-  //   cungMenh: 'Cấn',
-  //   menhChu: 'Thổ',
-  //   saoChieuMenh: ['Thái Âm', 'Thiên Cơ', 'Tử Vi'],
-  // };
   const { tuviData } = route.params;
 
   return (
@@ -28,9 +21,7 @@ export default function TuviResultScreen() {
       <Text style={styles.text}>Mệnh Chủ: {tuviData.cungMenh}</Text>
       <Text style={styles.text}>Sao chiếu mệnh: {tuviData.saoChieuMenh?.join(', ')}</Text>
 
-      <Button
-        title="Luận giải AI"
-        onPress={() => navigation.navigate('TuviInterpretation', { tuviData })}
+      <Button title="Luận giải AI" onPress={() => navigation.navigate('TuviInterpretation', { tuviData })}
       />
     </View>
   );

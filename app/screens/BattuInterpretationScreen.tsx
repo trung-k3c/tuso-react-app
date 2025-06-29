@@ -17,7 +17,7 @@ export default function BattuInterpretationScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Luận giải AI</Text>
+      <Text style={styles.title}>Luận giải AI - Bát Tự</Text>
       {result ? <Text style={styles.text}>{result}</Text> : <ActivityIndicator />}
     </View>
   );

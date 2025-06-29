@@ -61,10 +61,10 @@ export default function InputInfoScreen() {
 
     const tuviData = {
       basic: { name, gender, birthDate, birthHour },
-        cungMenh: 'Cấn',
-        menhChu: 'Thổ',
-        saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
-        tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
+      cungMenh: 'Cấn',
+      menhChu: 'Thổ',
+      saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
+      tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
     };
 
     navigation.navigate('Main', { battuData: battuData, tuviData: tuviData });

@@ -11,7 +11,7 @@ export default function TuviInterpretationScreen() {
   useEffect(() => {
     // MOCK GPT
     setTimeout(() => {
-      setResult(`🌙 ${tuviData.name}, bạn có cung mệnh Cấn và mệnh chủ Thổ. Lá số cho thấy sự ổn định, đáng tin cậy và nội lực mạnh mẽ. Những sao chiếu như ${tuviData.tuviDetails.saoChieuMenh.join(', ')} cho thấy bạn là người vừa có trí tuệ vừa có tình cảm...`);
+      setResult(`🌙 ${tuviData.basic.name}, bạn có cung mệnh Cấn và mệnh chủ Thổ. Lá số cho thấy sự ổn định, đáng tin cậy và nội lực mạnh mẽ. Những sao chiếu như ${tuviData.tuviDetails.saoChieuMenh.join(', ')} cho thấy bạn là người vừa có trí tuệ vừa có tình cảm...`);
     }, 2000);
   }, []);
 

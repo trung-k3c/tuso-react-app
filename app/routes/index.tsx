@@ -23,7 +23,7 @@ export default function Routes() {
       <Stack.Screen name="TuviResult" component={TuviResultScreen} />
       <Stack.Screen name="BattuInterpretation" component={BattuInterpretationScreen} />
       <Stack.Screen name="TuviInterpretation" component={TuviInterpretationScreen} />
-      <Stack.Screen name="Main" component={MainScreen} /> {/* MainScreen sẽ được tạo sau */}
+      <Stack.Screen name="Main" component={MainScreen} />
     </Stack.Navigator>
   );
 }

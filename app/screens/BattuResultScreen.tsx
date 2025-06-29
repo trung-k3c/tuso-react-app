@@ -19,6 +19,7 @@ export default function BattuResultScreen() {
       <Text style={styles.label}>Tứ trụ:</Text>
       <Text style={styles.text}>Can: {battuData.stems?.join(' - ')}</Text>
       <Text style={styles.text}>Chi: {battuData.branches?.join(' - ')}</Text>
+      
       <Button title="Luận giải AI" onPress={() => navigation.navigate('BattuInterpretation', { battuData })} />
     </View>
   );
