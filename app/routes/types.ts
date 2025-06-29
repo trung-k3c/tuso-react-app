@@ -1,4 +1,5 @@
 export type RootStackParamList = {
+  SplashScreen: undefined;
   TramChanKhong: undefined;
   Onboarding: undefined;
   InputInfo: undefined;
@@ -15,7 +16,7 @@ export type SplashScreenProps = {
 export type BattuData = {
   name: string;
   gender: string;
-  birthDate: string;
+  birthDate: Date;
   birthHour: string;
   stems: string[];
   branches: string[];

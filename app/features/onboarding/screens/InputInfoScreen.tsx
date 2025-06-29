@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
+import { Platform, TextInputProps } from 'react-native';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../routes/types';
 
 export default function InputInfoScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [name, setName] = useState('');
   const [gender, setGender] = useState('Nam');
   const [birthDate, setBirthDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [birthHour, setBirthHour] = useState('Tý');
+  const [birthHour, setBirthHour] = useState('Tý (23:00 - 01:00)');
 
-  const canhGio = ['Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'];
+  const canhGio = [
+    'Tý (23:00 - 01:00)', 
+    'Sửu (01:00 - 03:00)', 
+    'Dần (03:00 - 05:00)', 
+    'Mão (05:00 - 07:00)', 
+    'Thìn (07:00 - 09:00)', 
+    'Tỵ (09:00 - 11:00)', 
+    'Ngọ (11:00 - 13:00)', 
+    'Mùi (13:00 - 15:00)', 
+    'Thân (15:00 - 17:00)', 
+    'Dậu (17:00 - 19:00)', 
+    'Tuất (19:00 - 21:00)', 
+    'Hợi (21:00 - 23:00)' 
+  ];
 
-  const handleNext = async () => {
+  const handleNext = () => {
     // MOCK CALL: Sau sẽ gọi API thật
     const battuData = {
       name, gender, birthDate, birthHour,
@@ -37,17 +53,38 @@ export default function InputInfoScreen() {
       </Picker>
 
       <Text style={styles.label}>Ngày sinh:</Text>
-      <Button title={birthDate.toDateString()} onPress={() => setShowDatePicker(true)} />
-      {showDatePicker && (
-        <DateTimePicker
-          value={birthDate}
-          mode="date"
-          display="default"
-          onChange={(e, date) => {
-            setShowDatePicker(false);
-            if (date) setBirthDate(date);
+      {Platform.OS === 'web' ? (
+        <input
+          type="date"
+          value={birthDate.toISOString().slice(0, 10)}
+          onChange={(e) => {
+            const parsed = new Date(e.target.value);
+            if (!isNaN(parsed.getTime())) setBirthDate(parsed);
+          }}
+          style={{
+            fontSize: 16,
+            padding: 8,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            borderRadius: 4,
+            marginBottom: 20,
           }}
         />
+      ) : (
+        <>
+          <Button title={birthDate.toDateString()} onPress={() => setShowDatePicker(true)} />
+          {showDatePicker && (
+            <DateTimePicker
+              value={birthDate}
+              mode="date"
+              display="default"
+              onChange={(e, date) => {
+                setShowDatePicker(false);
+                if (date) setBirthDate(date);
+              }}
+            />
+          )}
+        </>
       )}
 
       <Text style={styles.label}>Giờ sinh:</Text>

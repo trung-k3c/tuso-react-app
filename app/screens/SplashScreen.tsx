@@ -1,9 +1,11 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../routes/types'; // sửa lại path cho đúng
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export default function SplashScreen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const timer = setTimeout(() => {

@@ -2,11 +2,7 @@ import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { BattuData } from '../routes/types'; // Adjust the import path as necessary
-
-type RootStackParamList = {
-  BattuResult: { battuData: BattuData };
-};
+import { RootStackParamList } from '../routes/types';
 
 type BattuResultRouteProp = RouteProp<RootStackParamList, 'BattuResult'>;
 
@@ -18,6 +14,8 @@ export default function BattuResultScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Thiên Mệnh của {battuData.name}</Text>
+      <Text style={styles.title}>Ngày Sinh: {battuData.birthDate.toString()}</Text>
+      <Text style={styles.title}>Giờ Sinh: {battuData.birthHour}</Text>
       <Text style={styles.label}>Tứ trụ:</Text>
       <Text style={styles.text}>Can: {battuData.stems.join(' - ')}</Text>
       <Text style={styles.text}>Chi: {battuData.branches.join(' - ')}</Text>

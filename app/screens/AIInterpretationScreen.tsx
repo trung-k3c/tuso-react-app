@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { useRoute } from '@react-navigation/native';
-import { BattuData } from '../routes/types'; // Adjust the import path as necessary
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from '../routes/types';
 
 export default function AIInterpretationScreen() {
-  const { battuData } = useRoute().params;
+  const route = useRoute<RouteProp<RootStackParamList, 'AIInterpretation'>>();
+  const { battuData } = route.params;
   const [result, setResult] = useState('');
 
   useEffect(() => {
