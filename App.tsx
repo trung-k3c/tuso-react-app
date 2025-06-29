@@ -22,12 +22,15 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import Routes from './app/routes';
+import { UserProvider } from './context/UserDataContext';
 
 export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="light" />
-      <Routes />
+      <UserProvider>
+        <Routes />
+      </UserProvider>
     </NavigationContainer>
   );
 }

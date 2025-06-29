@@ -7,10 +7,7 @@ export type RootStackParamList = {
   BattuInterpretation: { battuData: BattuData };
   TuviResult: { tuviData: TuviData };
   TuviInterpretation: { tuviData: TuviData };
-  Main: {
-    battuData: BattuData;
-    tuviData: TuviData;
-  }
+  Main: undefined;
   // thêm các màn khác nếu có
 };
 export type SplashScreenProps = {

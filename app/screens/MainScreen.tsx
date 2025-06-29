@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes/types';
+import { useUserContext } from '../../context/UserDataContext';
 
 export default function MainScreen() {
-  const route = useRoute<RouteProp<RootStackParamList, 'Main'>>();
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
-  const { battuData, tuviData } = route.params;
+  const { battuData, tuviData } = useUserContext();
   const [hasBattuResult, setHasBattuResult] = useState(false);
   const [hasTuviResult, setHasTuviResult] = useState(false);
 

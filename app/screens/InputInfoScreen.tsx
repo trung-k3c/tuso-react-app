@@ -6,9 +6,11 @@ import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes/types';
+import { useUserContext } from '../../context/UserDataContext';
 
 export default function InputInfoScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { setUserData } = useUserContext();
   const [name, setName] = useState('');
   const [gender, setGender] = useState('Nam');
   const [birthDate, setBirthDate] = useState(new Date());
@@ -52,22 +54,9 @@ export default function InputInfoScreen() {
     navigation.navigate('TuviResult', { tuviData });
   };
 
-  const handleNext = () => {
-    const battuData = {
-      basic: { name, gender, birthDate, birthHour },
-      stems: ['Giáp', 'Tân', 'Canh', 'Mậu'],
-      branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'],
-    };
-
-    const tuviData = {
-      basic: { name, gender, birthDate, birthHour },
-      cungMenh: 'Cấn',
-      menhChu: 'Thổ',
-      saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
-      tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
-    };
-
-    navigation.navigate('Main', { battuData: battuData, tuviData: tuviData });
+  const handleStart = () => {
+    setUserData({ name, gender, birthDate, birthHour });
+    navigation.navigate('Main');
   };
 
   return (
@@ -124,7 +113,7 @@ export default function InputInfoScreen() {
 
       {/* <Button title="Xem Thiên Mệnh" onPress={xemBatTu} />
       <Button title="Xem Địa Duyên Mệnh" onPress={xemTuVi} /> */}
-      <Button title="Bắt đầu trải nghiệm" onPress={handleNext} />
+      <Button title="Bắt đầu trải nghiệm" onPress={handleStart} />
     </View>
   );
 }
