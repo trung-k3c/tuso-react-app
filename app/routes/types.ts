@@ -4,7 +4,9 @@ export type RootStackParamList = {
   Onboarding: undefined;
   InputInfo: undefined;
   BattuResult: { battuData: BattuData };
-  AIInterpretation: { battuData: BattuData };
+  BattuInterpretation: { battuData: BattuData };
+  TuviResult: { tuviData: TuviData };
+  TuviInterpretation: { tuviData: TuviData };
   // thêm các màn khác nếu có
 };
 export type SplashScreenProps = {
@@ -21,3 +23,16 @@ export type BattuData = {
   stems: string[];
   branches: string[];
 };
+
+export type TuviData = {
+  name: string;
+  gender: string;
+  birthDate: Date;
+  birthHour: string;
+  tuviDetails: {
+    cungMenh: string,
+    menhChu: string,
+    saoChieuMenh: string[],
+    tongQuan: string,
+  }; // có thể là chuỗi mô tả hoặc đối tượng  
+}

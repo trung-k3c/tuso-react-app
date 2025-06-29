@@ -4,7 +4,9 @@ import TramChanKhongScreen from '../screens/TramChanKhongScreen';
 import OnboardingScreen from '../features/onboarding/screens/OnboardingScreen';
 import InputInfoScreen from '../features/onboarding/screens/InputInfoScreen'; // tạo sau
 import BattuResultScreen from '../screens/BattuResultScreen';
-import AIInterpretationScreen from '../screens/AIInterpretationScreen'; // tạo sau  
+import BattuInterpretationScreen from '../screens/BattuInterpretationScreen'; // tạo sau  
+import TuviResultScreen from '../screens/TuviResultScreen'; // tạo sau
+import TuviInterpretationScreen from '../screens/TuviInterpretationScreen'; // tạo sau
 import { RootStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -17,7 +19,9 @@ export default function Routes() {
       <Stack.Screen name="Onboarding" component={OnboardingScreen} />
       <Stack.Screen name="InputInfo" component={InputInfoScreen} />
       <Stack.Screen name="BattuResult" component={BattuResultScreen} />
-      <Stack.Screen name="AIInterpretation" component={AIInterpretationScreen} />
+      <Stack.Screen name="TuviResult" component={TuviResultScreen} />
+      <Stack.Screen name="BattuInterpretation" component={BattuInterpretationScreen} />
+      <Stack.Screen name="TuviInterpretation" component={TuviInterpretationScreen} />
     </Stack.Navigator>
   );
 }

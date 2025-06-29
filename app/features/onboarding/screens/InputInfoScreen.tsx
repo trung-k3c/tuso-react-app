@@ -30,7 +30,7 @@ export default function InputInfoScreen() {
     'Hợi (21:00 - 23:00)' 
   ];
 
-  const handleNext = () => {
+  const xemBatTu = () => {
     // MOCK CALL: Sau sẽ gọi API thật
     const battuData = {
       name, gender, birthDate, birthHour,
@@ -38,6 +38,20 @@ export default function InputInfoScreen() {
       branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'],
     };
     navigation.navigate('BattuResult', { battuData });
+  };
+
+  const xemTuVi = () => {
+    // MOCK CALL: Sau sẽ gọi API thật
+    const tuviData = {
+      name, gender, birthDate, birthHour,
+      tuviDetails: {
+        cungMenh: 'Cấn',
+        menhChu: 'Thổ',
+        saoChieuMenh: ['Thái Âm', 'Thiên Cơ'],
+        tongQuan: 'Bạn là người kiên định, sống có nguyên tắc...',
+      }
+    };
+    navigation.navigate('TuviResult', { tuviData });
   };
 
   return (
@@ -92,7 +106,8 @@ export default function InputInfoScreen() {
         {canhGio.map(g => <Picker.Item key={g} label={g} value={g} />)}
       </Picker>
 
-      <Button title="Xem Thiên Mệnh" onPress={handleNext} />
+      <Button title="Xem Thiên Mệnh" onPress={xemBatTu} />
+      <Button title="Xem Địa Duyên Mệnh" onPress={xemTuVi} />
     </View>
   );
 }

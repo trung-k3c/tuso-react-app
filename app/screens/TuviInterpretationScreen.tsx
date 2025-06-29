@@ -3,21 +3,21 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../routes/types';
 
-export default function AIInterpretationScreen() {
-  const route = useRoute<RouteProp<RootStackParamList, 'AIInterpretation'>>();
-  const { battuData } = route.params;
+export default function TuviInterpretationScreen() {
+  const route = useRoute<RouteProp<RootStackParamList, 'TuviInterpretation'>>();
+  const { tuviData } = route.params;
   const [result, setResult] = useState('');
 
   useEffect(() => {
-    // Mock fetch GPT luận giải
+    // MOCK GPT
     setTimeout(() => {
-      setResult(`🌿 ${battuData.name}, bạn mang mệnh “Giáp Tý” – người tiên phong, độc lập và giàu nội lực. Sự nghiệp sáng khi biết đi chậm mà chắc, tránh nóng vội...`);
+      setResult(`🌙 ${tuviData.name}, bạn có cung mệnh Cấn và mệnh chủ Thổ. Lá số cho thấy sự ổn định, đáng tin cậy và nội lực mạnh mẽ. Những sao chiếu như ${tuviData.tuviDetails.saoChieuMenh.join(', ')} cho thấy bạn là người vừa có trí tuệ vừa có tình cảm...`);
     }, 2000);
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Luận giải AI</Text>
+      <Text style={styles.title}>Luận giải AI – Tử Vi</Text>
       {result ? <Text style={styles.text}>{result}</Text> : <ActivityIndicator />}
     </View>
   );
