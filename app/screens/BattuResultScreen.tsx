@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes/types';
 import { useUserContext } from '../../context/UserDataContext';
+import { generateBattuData } from '../../shared/utils/battu';
 
 export default function BattuResultScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -11,7 +12,8 @@ export default function BattuResultScreen() {
 
   useEffect(() => {
     if (userData && !userData.battu) {
-      setUserData({ battu: { stems: ['Giáp', 'Tân', 'Canh', 'Mậu'], branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'] } });
+      const data = generateBattuData(userData.birthDate);
+      setUserData({ battu: { stems: ['Giáp', 'Tân', 'Canh', 'Mậu'], branches: ['Tý', 'Dần', 'Ngọ', 'Hợi'], data } });
     }
   }, []);
 
