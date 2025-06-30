@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import type { BattuData } from '../shared/types/battuTypes';
 
 export type UserData = {
   name: string;
@@ -8,6 +9,7 @@ export type UserData = {
   battu?: {
     stems: string[];
     branches: string[];
+    data: BattuData;
     interpretation?: string;
   };
   tuvi?: {

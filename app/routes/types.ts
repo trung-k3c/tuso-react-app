@@ -24,6 +24,7 @@ export type UserData = {
   battu?: {
     stems: string[];
     branches: string[];
+    data: import('../../shared/types/battuTypes').BattuData;
     interpretation?: string;
   };
   tuvi?: {
