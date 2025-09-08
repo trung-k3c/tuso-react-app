@@ -19,16 +19,20 @@
 //   },
 // });
 
+import 'react-native-gesture-handler'; // <— thêm: import sớm nhất
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Routes from './app/routes';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="light" />
-      <Routes />
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}> {/* <— thêm */}
+      <NavigationContainer>
+        <StatusBar style="light" />
+        <Routes />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 

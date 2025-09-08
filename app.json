@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.zorbatzu.tusoreactapp"
+      "bundleIdentifier": "com.k3c.tusoreactapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.zorbatzu.tusoreactapp"
+      "package": "com.k3c.tusoreactapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,7 +35,7 @@
     "updates": {
       "url": "https://u.expo.dev/ac8e4d7f-222f-4633-86f5-f12fe67cd806"
     },
-    "owner": "zorbatzu",
+    "owner": "k3c",
     "runtimeVersion": "1.0.0"
   }
 }
