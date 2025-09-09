@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, TextInput, Pressable, Animated, Dimensions, StyleSheet, KeyboardAvoidingView, Platform } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -37,6 +38,13 @@ export default function ProfileSetupScreen() {
   const [hour, setHour] = useState('');
   const [minute, setMinute] = useState('');
   const [noTime, setNoTime] = useState(false);
+  const allFilled =
+    name &&
+    birthPlace &&
+    day &&
+    month &&
+    year &&
+    (noTime || (hour && minute));
 
   return (
     <View style={StyleSheet.absoluteFill}>
@@ -79,51 +87,78 @@ export default function ProfileSetupScreen() {
               value={birthPlace}
               onChangeText={setBirthPlace}
             />
-            <View style={styles.row}>
-              <TextInput
-                style={[styles.input, styles.dateInput]}
-                placeholder="DD"
-                placeholderTextColor="#8a8a8a"
-                keyboardType="numeric"
-                value={day}
-                onChangeText={setDay}
-              />
-              <TextInput
-                style={[styles.input, styles.dateInput]}
-                placeholder="MM"
-                placeholderTextColor="#8a8a8a"
-                keyboardType="numeric"
-                value={month}
-                onChangeText={setMonth}
-              />
-              <TextInput
-                style={[styles.input, styles.dateInput]}
-                placeholder="YYYY"
-                placeholderTextColor="#8a8a8a"
-                keyboardType="numeric"
-                value={year}
-                onChangeText={setYear}
-              />
+            <View style={styles.dateSection}>
+              <Picker
+                selectedValue={day}
+                onValueChange={(itemValue) => setDay(itemValue)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Day" value="" />
+                {Array.from({ length: 31 }, (_, i) => (
+                  <Picker.Item
+                    key={i + 1}
+                    label={`${i + 1}`.padStart(2, '0')}
+                    value={`${i + 1}`.padStart(2, '0')}
+                  />
+                ))}
+              </Picker>
+              <Picker
+                selectedValue={month}
+                onValueChange={(itemValue) => setMonth(itemValue)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Month" value="" />
+                {Array.from({ length: 12 }, (_, i) => (
+                  <Picker.Item
+                    key={i + 1}
+                    label={`${i + 1}`.padStart(2, '0')}
+                    value={`${i + 1}`.padStart(2, '0')}
+                  />
+                ))}
+              </Picker>
+              <Picker
+                selectedValue={year}
+                onValueChange={(itemValue) => setYear(itemValue)}
+                style={styles.picker}
+              >
+                <Picker.Item label="Year" value="" />
+                {Array.from({ length: 100 }, (_, i) => {
+                  const y = new Date().getFullYear() - i;
+                  return <Picker.Item key={y} label={`${y}`} value={`${y}`} />;
+                })}
+              </Picker>
             </View>
             <View style={styles.row}>
-              <TextInput
-                style={[styles.input, styles.timeInput]}
-                placeholder="HH"
-                placeholderTextColor="#8a8a8a"
-                keyboardType="numeric"
-                value={hour}
-                onChangeText={setHour}
-                editable={!noTime}
-              />
-              <TextInput
-                style={[styles.input, styles.timeInput]}
-                placeholder="MM"
-                placeholderTextColor="#8a8a8a"
-                keyboardType="numeric"
-                value={minute}
-                onChangeText={setMinute}
-                editable={!noTime}
-              />
+              <Picker
+                selectedValue={hour}
+                onValueChange={(itemValue) => setHour(itemValue)}
+                enabled={!noTime}
+                style={[styles.picker, styles.timePicker, noTime && styles.pickerDisabled]}
+              >
+                <Picker.Item label="Hour" value="" />
+                {Array.from({ length: 24 }, (_, i) => (
+                  <Picker.Item
+                    key={i}
+                    label={`${i}`.padStart(2, '0')}
+                    value={`${i}`.padStart(2, '0')}
+                  />
+                ))}
+              </Picker>
+              <Picker
+                selectedValue={minute}
+                onValueChange={(itemValue) => setMinute(itemValue)}
+                enabled={!noTime}
+                style={[styles.picker, styles.timePicker, noTime && styles.pickerDisabled]}
+              >
+                <Picker.Item label="Minute" value="" />
+                {Array.from({ length: 60 }, (_, i) => (
+                  <Picker.Item
+                    key={i}
+                    label={`${i}`.padStart(2, '0')}
+                    value={`${i}`.padStart(2, '0')}
+                  />
+                ))}
+              </Picker>
               <Pressable
                 style={styles.checkboxRow}
                 onPress={() => setNoTime((v) => !v)}
@@ -132,6 +167,22 @@ export default function ProfileSetupScreen() {
                 <Text style={styles.checkboxLabel}>I don't remember</Text>
               </Pressable>
             </View>
+            <View style={styles.detailCard}>
+              <Text style={styles.detailTitle}>Profile Details</Text>
+              <Text style={styles.detailText}>Name: {name}</Text>
+              <Text style={styles.detailText}>Gender: {gender}</Text>
+              <Text style={styles.detailText}>Place: {birthPlace}</Text>
+              <Text style={styles.detailText}>Date: {day && month && year ? `${day}/${month}/${year}` : ''}</Text>
+              <Text style={styles.detailText}>
+                Time: {noTime ? 'Unknown' : hour && minute ? `${hour}:${minute}` : ''}
+              </Text>
+            </View>
+            <Pressable
+              style={[styles.ctaButton, !allFilled && styles.ctaButtonDisabled]}
+              disabled={!allFilled}
+            >
+              <Text style={styles.ctaText}>Khám Phá Bản Thân</Text>
+            </Pressable>
           </View>
         </KeyboardAvoidingView>
       </Animated.View>
@@ -186,8 +237,16 @@ const styles = StyleSheet.create({
   segmentText: { color: '#F2F2F2' },
   segmentTextActive: { color: '#041818', fontWeight: '800' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  dateInput: { flex: 1 },
-  timeInput: { width: 60 },
+  dateSection: { gap: 8 },
+  picker: {
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 8,
+    color: '#F2F2F2',
+    backgroundColor: '#111213',
+  },
+  timePicker: { width: 80 },
+  pickerDisabled: { color: '#8a8a8a' },
   checkboxRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -205,4 +264,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#5AD1FF',
   },
   checkboxLabel: { color: '#F2F2F2' },
+  detailCard: {
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 8,
+    padding: 12,
+    gap: 4,
+  },
+  detailTitle: { color: '#F2F2F2', fontWeight: '800', marginBottom: 4 },
+  detailText: { color: '#F2F2F2' },
+  ctaButton: {
+    marginTop: 20,
+    backgroundColor: '#5AD1FF',
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  ctaButtonDisabled: { backgroundColor: '#333' },
+  ctaText: { color: '#041818', fontWeight: '800' },
 });
