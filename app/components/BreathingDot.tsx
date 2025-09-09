@@ -11,7 +11,7 @@ export default function BreathingDot({ progress }: Props) {
 
   useEffect(() => {
     if (progress) return; // dùng progress từ parent, không tự animate
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.sequence([
         Animated.timing(local, {
           toValue: 1,
@@ -26,8 +26,14 @@ export default function BreathingDot({ progress }: Props) {
           easing: Easing.inOut(Easing.quad),
         }),
       ])
-    ).start();
-  }, [progress]);
+    );
+
+    animation.start();
+
+    return () => {
+      animation.stop();
+    };
+  }, [progress, local]);
 
   const p = progress ?? local;
 
