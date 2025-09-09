@@ -1,14 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
 import TopNav from '../components/TopNav';
 import BottomNav from '../components/BottomNav';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types';
 
 export default function IChingScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
       <TopNav title="Soi Đường Quyết Định" />
       <View style={styles.content}>
-        <Text>Soi Đường Quyết Định</Text>
+        <Pressable style={styles.button} onPress={() => navigation.navigate('GieoQue')}>
+          <Text style={styles.buttonText}>Gieo Quẻ</Text>
+        </Pressable>
       </View>
       <BottomNav />
     </View>
@@ -18,4 +24,11 @@ export default function IChingScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
   content: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  button: {
+    backgroundColor: '#000',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  buttonText: { color: '#fff', fontWeight: 'bold' },
 });

@@ -1,27 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function BottomNav() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
       <Pressable onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.text}>Home</Text>
+        <Ionicons name="home" size={24} />
       </Pressable>
       <Pressable onPress={() => navigation.navigate('ExploreSelf')}>
-        <Text style={styles.text}>Khám Phá Bản Thân</Text>
+        <Ionicons name="person" size={24} />
       </Pressable>
       <Pressable onPress={() => navigation.navigate('IChing')}>
-        <Text style={styles.text}>Soi Đường Quyết Định</Text>
+        <Ionicons name="book" size={24} />
       </Pressable>
       <Pressable onPress={() => navigation.navigate('ChuaLanh')}>
-        <Text style={styles.text}>Chữa Lành Cảm Xúc</Text>
+        <Ionicons name="heart" size={24} />
       </Pressable>
       <Pressable onPress={() => navigation.navigate('KhaiMo')}>
-        <Text style={styles.text}>Khai Mở Vận Mệnh</Text>
+        <Ionicons name="star" size={24} />
       </Pressable>
     </View>
   );
@@ -35,8 +36,10 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#ccc',
     backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 12,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
   },
 });
