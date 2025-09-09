@@ -10,5 +10,9 @@ export type RootStackParamList = {
   IChing: undefined;
   ChuaLanh: undefined;
   KhaiMo: undefined;
+  LaSoBatTu: undefined;
+  LaSoTuVi: undefined;
+  TongHop: undefined;
+  GieoQue: undefined;
   Profile: undefined;
 };
