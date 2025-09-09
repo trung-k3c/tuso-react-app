@@ -4,13 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
 
-export default function OnboardingScreen() {
+export default function RegistrationScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Chào Mừng đến với TUSO</Text>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('ProfileSetup')}>
-        <Text style={styles.buttonText}>Bắt Đầu Trải Nghiệm</Text>
+      <Text style={styles.title}>Login/Signup</Text>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Home')}>
+        <Text style={styles.buttonText}>Login</Text>
       </Pressable>
     </View>
   );
@@ -19,23 +19,22 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
-    color: '#fff',
     marginBottom: 24,
   },
   button: {
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 8,
   },
   buttonText: {
-    color: '#000',
+    color: '#fff',
     fontWeight: 'bold',
   },
 });

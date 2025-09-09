@@ -2,5 +2,13 @@ export type RootStackParamList = {
   Splash: undefined;
   TramChanKhong: undefined;
   Onboarding: undefined;
-  // thêm các màn khác nếu có
+  ProfileSetup: undefined;
+  LoadingProfile: undefined;
+  Registration: undefined;
+  Home: undefined;
+  ExploreSelf: undefined;
+  IChing: undefined;
+  ChuaLanh: undefined;
+  KhaiMo: undefined;
+  Profile: undefined;
 };
