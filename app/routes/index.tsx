@@ -1,12 +1,13 @@
 // app/routes/index.tsx
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types';
 import SplashScreen from '../screens/SplashScreen';
 import TramChanKhongScreen from '../screens/TramChanKhongScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
 
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Routes() {
   return (
