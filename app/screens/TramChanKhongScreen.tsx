@@ -65,14 +65,17 @@ export default function TramChanKhongScreen() {
   });
 
   return (
-    <Pressable style={styles.container} onPress={() => navigation.navigate('Onboarding')}>
+    <View style={styles.container}>
       <Animated.Text style={[styles.title, { opacity: fade }]}>{QUOTES[idx]}</Animated.Text>
 
       <View style={styles.dotContainer}>
         <BreathingDot progress={breath} />
       </View>
 
-    </Pressable>
+      <Pressable style={styles.openGate} onPress={() => navigation.navigate('Onboarding')}>
+        <Text style={styles.openGateText}>Chạm để mở cổng</Text>
+      </Pressable>
+    </View>
   );
 }
 
@@ -94,5 +97,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
+  },
+  openGate: {
+    paddingVertical: 16,
+  },
+  openGateText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 16,
   },
 });
