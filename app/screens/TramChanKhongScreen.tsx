@@ -1,24 +1,74 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Pressable, Animated, Easing } from 'react-native';
 import BreathingDot from '../components/BreathingDot';
 import { useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../types'; // sửa lại path cho đúng
+import { RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+const BREATH_PHASE_MS = 5000; // 2s hít / 2s thở
+const FULL_CYCLE_MS = BREATH_PHASE_MS * 2;
 
 export default function TramChanKhongScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+  // 1) Nhịp thở dùng chung cho Dot + text
+  const breath = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(breath, {
+          toValue: 1,
+          duration: BREATH_PHASE_MS,
+          useNativeDriver: true,
+          easing: Easing.inOut(Easing.quad),
+        }),
+        Animated.timing(breath, {
+          toValue: 0,
+          duration: BREATH_PHASE_MS,
+          useNativeDriver: true,
+          easing: Easing.inOut(Easing.quad),
+        }),
+      ])
+    ).start();
+  }, [breath]);
+
+  // 2) Quotes hiển thị theo chu kỳ thở (đổi mỗi FULL_CYCLE_MS)
+  const QUOTES = useMemo(
+    () => [
+      'Hít vào… trở về Trạm Chân Không.',
+      'Thở ra… buông mọi vọng tưởng.',
+      'Khoảnh khắc này là đủ.',
+      'Tĩnh lặng – nơi ta bắt đầu.',
+      'Lặng nghe nhịp thở của vũ trụ.',
+      'Không – mà tròn đầy.',
+    ],
+    []
+  );
+
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIdx((i) => (i + 1) % QUOTES.length);
+    }, FULL_CYCLE_MS);
+    return () => clearInterval(id);
+  }, [QUOTES.length]);
+
+  // 3) Opacity đồng bộ nhịp thở (mềm: 0.4→1→0.4)
+  const fade = breath.interpolate({
+    inputRange: [0, 0.5, 1],
+    outputRange: [0.4, 1, 0.4],
+  });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Trạm Chân Không</Text>
+    <Pressable style={styles.container} onPress={() => navigation.navigate('Onboarding')}>
+      <Animated.Text style={[styles.title, { opacity: fade }]}>{QUOTES[idx]}</Animated.Text>
+
       <View style={styles.dotContainer}>
-        <BreathingDot />
+        <BreathingDot progress={breath} />
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('Onboarding')}>
-        <Text style={styles.touchText}>0. Chân Không * touch to begin</Text>
-      </TouchableOpacity>
-    </View>
+
+    </Pressable>
   );
 }
 
@@ -27,24 +77,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     padding: 24,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   title: {
     color: '#fff',
     textAlign: 'center',
     marginTop: 48,
     fontSize: 16,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   dotContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1
+    flex: 1,
   },
-  touchText: {
-    color: '#fff',
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 32
-  }
 });
