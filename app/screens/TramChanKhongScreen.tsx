@@ -15,7 +15,7 @@ export default function TramChanKhongScreen() {
   const breath = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.loop(
+    const animation = Animated.loop(
       Animated.sequence([
         Animated.timing(breath, {
           toValue: 1,
@@ -30,7 +30,11 @@ export default function TramChanKhongScreen() {
           easing: Easing.inOut(Easing.quad),
         }),
       ])
-    ).start();
+    );
+    animation.start();
+    return () => {
+      animation.stop();
+    };
   }, [breath]);
 
   // 2) Quotes hiển thị theo chu kỳ thở (đổi mỗi FULL_CYCLE_MS)
