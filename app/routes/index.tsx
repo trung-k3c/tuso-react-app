@@ -5,6 +5,7 @@ import { RootStackParamList } from '../../types';
 import SplashScreen from '../screens/SplashScreen';
 import TramChanKhongScreen from '../screens/TramChanKhongScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
+import ProfileSetupScreen from '../screens/ProfileSetupScreen';
 
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -23,6 +24,11 @@ export default function Routes() {
           contentStyle: { backgroundColor: 'transparent' },
           // iOS có blur/transparent tốt; Android cần overlay View trong component
         }}
+      />
+      <Stack.Screen
+        name="ProfileSetup"
+        component={ProfileSetupScreen}
+        options={{ animation: 'slide_from_left' }}
       />
     </Stack.Navigator>
   );
