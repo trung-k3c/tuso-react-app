@@ -110,7 +110,7 @@ export default function OnboardingScreen() {
           Chúng tôi có thể dùng dữ liệu sử dụng để cá nhân hoá trải nghiệm, cải thiện dịch vụ và phòng chống gian lận.
           <Text style={styles.link}>  Cách Tuso quản lý dữ liệu của bạn</Text>.
         </Text>
-        <TouchableOpacity style={styles.cta} onPress={close}>
+        <TouchableOpacity style={styles.cta} onPress={() => nav.navigate('ProfileSetup')}>
           <Text style={styles.ctaText}>Bắt Đầu Hành Trình</Text>
         </TouchableOpacity>
       </View>
