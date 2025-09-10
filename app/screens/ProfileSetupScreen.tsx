@@ -3,13 +3,19 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
+import { useAppStore } from '../lib/store';
 
 export default function ProfileSetupScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const completeProfileSetup = useAppStore((s) => s.completeProfileSetup);
+  const handleNext = () => {
+    completeProfileSetup();
+    navigation.navigate('Main', { screen: 'Home' });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Thiết Lập Hồ Sơ</Text>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('LoadingProfile')}>
+      <Pressable style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Khám Phá Bản Thân</Text>
       </Pressable>
     </View>

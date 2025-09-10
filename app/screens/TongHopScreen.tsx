@@ -3,12 +3,14 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TongHopScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.overlay}>
-      <View style={styles.modal}>
+      <View style={[styles.modal, { paddingTop: insets.top }]}>
         <View style={styles.header}>
           <Text style={styles.title}>Tổng Hợp Bản Mệnh</Text>
           <Pressable onPress={() => navigation.goBack()}>
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   modal: {
-    height: '80%',
+    height: '100%',
     backgroundColor: '#fff',
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,

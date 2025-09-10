@@ -6,11 +6,11 @@ import BottomNav from '../components/BottomNav';
 export default function KhaiMoVanMenhScreen() {
   return (
     <View style={styles.container}>
-      <TopNav title="Khai Mở Vận Mệnh" />
+      {/* <TopNav title="Khai Mở Vận Mệnh" /> */}
       <View style={styles.content}>
         <Text>Khai Mở Vận Mệnh</Text>
       </View>
-      <BottomNav />
+      {/* <BottomNav /> */}
     </View>
   );
 }

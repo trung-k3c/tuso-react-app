@@ -6,11 +6,11 @@ import BottomNav from '../components/BottomNav';
 export default function ChuaLanhCamXucScreen() {
   return (
     <View style={styles.container}>
-      <TopNav title="Chữa Lành Cảm Xúc" />
+      {/* <TopNav title="Chữa Lành Cảm Xúc" /> */}
       <View style={styles.content}>
         <Text>Chữa Lành Cảm Xúc</Text>
       </View>
-      <BottomNav />
+      {/* <BottomNav /> */}
     </View>
   );
 }

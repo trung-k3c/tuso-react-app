@@ -10,13 +10,13 @@ export default function IChingScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <TopNav title="Soi Đường Quyết Định" />
+      {/* <TopNav title="Soi Đường Quyết Định" /> */}
       <View style={styles.content}>
         <Pressable style={styles.button} onPress={() => navigation.navigate('GieoQue')}>
           <Text style={styles.buttonText}>Gieo Quẻ</Text>
         </Pressable>
       </View>
-      <BottomNav />
+      {/* <BottomNav /> */}
     </View>
   );
 }
