@@ -1,18 +1,18 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Animated, Easing } from 'react-native';
-import BreathingDot from '../components/BreathingDot';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { $ } from '../lib/store';
 
-const BREATH_PHASE_MS = 5000; // 2s hít / 2s thở
+// 1 nhịp hít + thở (VD: 4s hít + 4s thở)
+const BREATH_PHASE_MS = 4000;
 const FULL_CYCLE_MS = BREATH_PHASE_MS * 2;
 
 export default function TramChanKhongScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  // 1) Nhịp thở dùng chung cho Dot + text
+  // Nhịp thở 0 → 1 → 0 dùng chung cho dot + (nếu muốn) các hiệu ứng khác
   const breath = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -33,12 +33,10 @@ export default function TramChanKhongScreen() {
       ])
     );
     animation.start();
-    return () => {
-      animation.stop();
-    };
+    return () => animation.stop();
   }, [breath]);
 
-  // 2) Quotes hiển thị theo chu kỳ thở (đổi mỗi FULL_CYCLE_MS)
+  // Quotes: đổi mỗi FULL_CYCLE_MS (đồng bộ nhịp thở)
   const QUOTES = useMemo(
     () => [
       'Hít vào… trở về Trạm Chân Không.',
@@ -50,7 +48,6 @@ export default function TramChanKhongScreen() {
     ],
     []
   );
-
   const [idx, setIdx] = useState(0);
   useEffect(() => {
     const id = setInterval(() => {
@@ -59,14 +56,30 @@ export default function TramChanKhongScreen() {
     return () => clearInterval(id);
   }, [QUOTES.length]);
 
-  // 3) Opacity đồng bộ nhịp thở (mềm: 0.4→1→0.4)
-  const fade = breath.interpolate({
+  // Typing animation cho quote hiện tại
+  const [typed, setTyped] = useState('');
+  useEffect(() => {
+    const text = QUOTES[idx];
+    setTyped('');
+    let i = 0;
+    const speed = 35; // ms/char (chỉnh nếu muốn nhanh/chậm)
+    const t = setInterval(() => {
+      i++;
+      setTyped(text.slice(0, i));
+      if (i >= text.length) clearInterval(t);
+    }, speed);
+    return () => clearInterval(t);
+  }, [idx, QUOTES]);
+
+  // Dot scale theo nhịp thở (1 → 1.4 → 1)
+  const dotScale = breath.interpolate({
     inputRange: [0, 0.5, 1],
-    outputRange: [0.4, 1, 0.4],
+    outputRange: [1, 1.4, 1],
   });
 
   const hasOnboarded = $.use((s) => s.hasOnboarded);
   const hasProfileSetup = $.use((s) => s.hasProfileSetup);
+
   const handleOpenGate = () => {
     if (hasOnboarded && hasProfileSetup) {
       navigation.navigate('Main', { screen: 'Home' });
@@ -76,18 +89,24 @@ export default function TramChanKhongScreen() {
       navigation.navigate('Onboarding');
     }
   };
-  return (
-    <View style={styles.container}>
-      <Animated.Text style={[styles.title, { opacity: fade }]}>{QUOTES[idx]}</Animated.Text>
 
+  return (
+    // Toàn màn hình touchable để mở cổng
+    <Pressable style={styles.container} onPress={handleOpenGate}>
+      {/* Quote gõ chữ */}
+      <Text style={styles.title} numberOfLines={3}>
+        {typed}
+        <Text style={styles.caret}>|</Text>
+      </Text>
+
+      {/* Breathing Dot (đã merge vào màn) */}
       <View style={styles.dotContainer}>
-        <BreathingDot progress={breath} />
+        <Animated.View style={[styles.dot, { transform: [{ scale: dotScale }] }]} />
       </View>
 
-      <Pressable style={styles.openGate} onPress={handleOpenGate}>
-        <Text style={styles.openGateText}>Chạm để mở cổng</Text>
-      </Pressable>
-    </View>
+      {/* Không còn nút "Chạm để mở cổng" */}
+      <View style={{ height: 24 }} />
+    </Pressable>
   );
 }
 
@@ -104,18 +123,21 @@ const styles = StyleSheet.create({
     marginTop: 48,
     fontSize: 16,
     fontStyle: 'italic',
+    lineHeight: 22,
+  },
+  caret: {
+    color: '#fff',
+    opacity: 0.8,
   },
   dotContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
   },
-  openGate: {
-    paddingVertical: 16,
-  },
-  openGateText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 16,
+  dot: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#fff',
   },
 });

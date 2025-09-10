@@ -7,10 +7,10 @@ import { useAppStore } from '../lib/store';
 
 export default function OnboardingScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const completeOnboarding = useAppStore((s) => s.completeOnboarding);
+  const completeOnboarding = useAppStore((s) => s.setOnboarded);
   const handleNext = () => {
-    completeOnboarding();
-    navigation.navigate('ProfileSetup');
+    completeOnboarding(true);
+    navigation.replace('ProfileSetup');
   };
   return (
     <View style={styles.container}>

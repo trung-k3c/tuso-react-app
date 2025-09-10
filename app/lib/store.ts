@@ -1,8 +1,11 @@
 // app/lib/store.ts
+
+/*
 import { create, StoreApi, UseBoundStore } from 'zustand';
 import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveOnboardingState, saveProfileState } from './persistence';
+import { getSafeWebStorage } from './safeWebStorage';
 import { Platform } from 'react-native';
 
 // ---------- Types
@@ -90,7 +93,7 @@ export const useAppStore = create<Store>()(
         hasOnboarded: state.hasOnboarded,
         hasProfileSetup: state.hasProfileSetup,
       }),
-      storage: createJSONStorage(() => Platform.OS === "web" ? localStorage : storage),
+      storage: createJSONStorage(() => Platform.OS === "web" ? getSafeWebStorage() : storage),
       migrate: async (persisted, version) => {
         if (!persisted) return persisted as any;
 
@@ -132,3 +135,48 @@ import { $ } from '../lib/store';
 const hasOnboarded = $.use((s) => s.hasOnboarded);
 const hasProfileSetup = $.use((s) => s.hasProfileSetup);
 */
+
+import { create, StoreApi, UseBoundStore } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getSafeWebStorage } from './safeWebStorage'; // adapter web an toàn
+
+type AppState = {
+  hasOnboarded: boolean;
+  hasProfileSetup: boolean;
+  setOnboarded: (b: boolean) => void;
+  setProfileSetup: (b: boolean) => void;
+};
+
+const storage = Platform.OS === 'web'
+  ? getSafeWebStorage()            // localStorage an toàn (fallback memory khi window chưa có)
+  : AsyncStorage;                  // native
+
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      hasOnboarded: false,
+      hasProfileSetup: false,
+      setOnboarded: (b) => set({ hasOnboarded: b }),
+      setProfileSetup: (b) => set({ hasProfileSetup: b }),
+    }),
+    {
+      name: 'tuso-app',
+      storage: createJSONStorage(() => storage),
+      partialize: (s) => ({ hasOnboarded: s.hasOnboarded, hasProfileSetup: s.hasProfileSetup }),
+    }
+  )
+);
+
+type UseStoreWithSelector<S> = UseBoundStore<StoreApi<S>>;
+
+export const createSelectors = <S>(hook: UseStoreWithSelector<S>) => ({
+  use: <T>(selector: (s: S) => T) => hook(selector),
+  get: () => hook.getState(),
+  set: (patch: Partial<S>) => hook.setState(patch as any),
+  subscribe: hook.subscribe,
+});
+
+// Dùng $ với type chính xác của Store
+export const $ = createSelectors<AppState>(useAppStore);

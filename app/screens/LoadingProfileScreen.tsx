@@ -12,7 +12,7 @@ export default function LoadingProfileScreen() {
       <Pressable style={styles.button} onPress={() => navigation.navigate('Registration')}>
         <Text style={styles.buttonText}>Tạo Tài Khoản Để Lưu Hồ Sơ</Text>
       </Pressable>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('ExploreSelf')}>
+      <Pressable style={styles.button} onPress={() => {navigation.replace('Main', { screen: 'ExploreSelf' })}}>
         <Text style={styles.buttonText}>Khám Phá Bản Thân as Guest</Text>
       </Pressable>
     </View>

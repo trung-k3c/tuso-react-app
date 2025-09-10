@@ -3,10 +3,11 @@ import React from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { useRoute, RouteProp } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import TopNav from '../components/TopNav';
 import BottomNav from '../components/BottomNav';
-import { MainStackParamList } from '../../types';
+import { RootStackParamList, MainStackParamList } from '../../types';
 
 // Screens “nội dung”
 import HomeScreen from '../screens/HomeScreen';
@@ -20,7 +21,11 @@ const WebStack = createStackNavigator<MainStackParamList>();
 const NativeStack = createNativeStackNavigator<MainStackParamList>();
 const ContentStack = Platform.OS === 'web' ? WebStack : NativeStack;
 
+type MainRoute = RouteProp<RootStackParamList, 'Main'>;
+
 export default function MainShell() {
+  const route = useRoute<MainRoute>();
+  const initial = (route.params?.screen as keyof MainStackParamList) ?? 'Home';
   const insets = useSafeAreaInsets();
 
   return (
@@ -28,6 +33,8 @@ export default function MainShell() {
       <TopNav title="TUSO" />
       <View style={[styles.content, { paddingBottom: insets.bottom + 60 }]}>
         <ContentStack.Navigator
+          initialRouteName={initial}
+          key={initial}
           screenOptions={
             Platform.OS === 'web'
               ? {

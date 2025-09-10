@@ -7,16 +7,16 @@ import { useAppStore } from '../lib/store';
 
 export default function ProfileSetupScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  const completeProfileSetup = useAppStore((s) => s.completeProfileSetup);
+  const completeProfileSetup = useAppStore((s) => s.setProfileSetup);
   const handleNext = () => {
-    completeProfileSetup();
-    navigation.navigate('Main', { screen: 'Home' });
+    completeProfileSetup(true);
+    navigation.replace('LoadingProfile');
   };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Thiết Lập Hồ Sơ</Text>
       <Pressable style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>Khám Phá Bản Thân</Text>
+        <Text style={styles.buttonText}>Thiết Lập Hồ Sơ</Text>
       </Pressable>
     </View>
   );
