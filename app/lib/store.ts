@@ -1,23 +1,23 @@
 // app/lib/store.ts
-import { create } from 'zustand';
+import { create, StoreApi, UseBoundStore } from 'zustand';
 import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveOnboardingState, saveProfileState } from './persistence';
+import { Platform } from 'react-native';
 
 // ---------- Types
-type SessionState = {
+export type SessionState = {
   lastSessionId?: string;
 };
-type UIState = {
+
+export type UIState = {
   theme: 'light' | 'dark';
-  onboardingCompleted: boolean;
 };
 
-type Store = {
+export type Store = {
   // slices
   session: SessionState;
   ui: UIState;
-
   hasOnboarded: boolean;
   hasProfileSetup: boolean;
 
@@ -30,7 +30,7 @@ type Store = {
 // ---------- Defaults
 const defaultState: Pick<Store, 'session' | 'ui' | 'hasOnboarded' | 'hasProfileSetup'> = {
   session: {},
-  ui: { theme: 'dark', onboardingCompleted: false },
+  ui: { theme: 'dark' },
   hasOnboarded: false,
   hasProfileSetup: false,
 };
@@ -57,44 +57,78 @@ export const useAppStore = create<Store>()(
   persist(
     (set, get) => ({
       ...defaultState,
-      setSession: (patch) => set((s) => ({ session: { ...s.session, ...patch } })),
-      setUI: (patch) => set((s) => ({ ui: { ...s.ui, ...patch } })),
+
+      setSession: (patch) =>
+        set((s) => ({ session: { ...s.session, ...patch } })),
+
+      setUI: (patch) =>
+        set((s) => ({ ui: { ...s.ui, ...patch } })),
+
       completeOnboarding: () => {
-        set({ hasOnboarded: true });
-        saveOnboardingState(true);
+        if (!get().hasOnboarded) {
+          set({ hasOnboarded: true });
+          // Nếu bạn còn cần sync ra ngoài:
+          saveOnboardingState(true);
+        }
       },
+
       completeProfileSetup: () => {
-        set({ hasProfileSetup: true });
-        saveProfileState(true);
+        if (!get().hasProfileSetup) {
+          set({ hasProfileSetup: true });
+          // Nếu bạn còn cần sync ra ngoài:
+          saveProfileState(true);
+        }
       },
     }),
     {
       name: STORE_NAME,
       version: STORE_VERSION,
-      // chỉ persist các slice cần thiết
+      // Persist cả 4 field cần thiết
       partialize: (state) => ({
         session: state.session,
         ui: state.ui,
+        hasOnboarded: state.hasOnboarded,
+        hasProfileSetup: state.hasProfileSetup,
       }),
-      storage: createJSONStorage(() => storage),
+      storage: createJSONStorage(() => Platform.OS === "web" ? localStorage : storage),
       migrate: async (persisted, version) => {
-        // ví dụ migrate khi đổi cấu trúc
         if (!persisted) return persisted as any;
+
+        // Migrates cũ -> v1: chốt theme mặc định, chèn flags nếu thiếu
         if (version < 1) {
-          // add default ui.theme nếu thiếu
+          const p = persisted as Partial<Store>;
           return {
-            ...persisted,
-            ui: { theme: 'dark', onboardingCompleted: false, ...(persisted as any).ui },
-          };
+            session: p.session ?? {},
+            ui: { theme: p.ui?.theme ?? 'dark' },
+            hasOnboarded: p.hasOnboarded ?? false,
+            hasProfileSetup: p.hasProfileSetup ?? false,
+          } as Store;
         }
+
+        // Không cần đổi gì ở v1
         return persisted as any;
       },
     }
   )
 );
 
-// ---------- Selector helper (tối ưu re-render)
-export const createSelectors = <S extends object>(hook: (cb?: any) => S) => ({
+// ---------- Selector helper (tối ưu re-render) — Gõ đúng type cho Zustand hook
+type UseStoreWithSelector<S> = UseBoundStore<StoreApi<S>>;
+
+export const createSelectors = <S>(hook: UseStoreWithSelector<S>) => ({
   use: <T>(selector: (s: S) => T) => hook(selector),
+  get: () => hook.getState(),
+  set: (patch: Partial<S>) => hook.setState(patch as any),
+  subscribe: hook.subscribe,
 });
-export const $ = createSelectors(useAppStore);
+
+// Dùng $ với type chính xác của Store
+export const $ = createSelectors<Store>(useAppStore);
+
+/*
+Usage:
+import { $ } from '../lib/store';
+
+const hasOnboarded = $.use((s) => s.hasOnboarded);
+const hasProfileSetup = $.use((s) => s.hasProfileSetup);
+*/

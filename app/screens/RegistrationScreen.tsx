@@ -9,7 +9,7 @@ export default function RegistrationScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login/Signup</Text>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Home')}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Main', { screen: 'Home' })}>
         <Text style={styles.buttonText}>Login</Text>
       </Pressable>
     </View>

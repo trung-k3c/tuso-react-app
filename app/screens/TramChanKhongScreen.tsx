@@ -69,7 +69,7 @@ export default function TramChanKhongScreen() {
   const hasProfileSetup = $.use((s) => s.hasProfileSetup);
   const handleOpenGate = () => {
     if (hasOnboarded && hasProfileSetup) {
-      navigation.navigate('Home');
+      navigation.navigate('Main', { screen: 'Home' });
     } else if (hasOnboarded) {
       navigation.navigate('ProfileSetup');
     } else {

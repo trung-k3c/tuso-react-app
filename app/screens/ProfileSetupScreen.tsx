@@ -10,7 +10,7 @@ export default function ProfileSetupScreen() {
   const completeProfileSetup = useAppStore((s) => s.completeProfileSetup);
   const handleNext = () => {
     completeProfileSetup();
-    navigation.navigate('Home');
+    navigation.navigate('Main', { screen: 'Home' });
   };
   return (
     <View style={styles.container}>

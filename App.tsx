@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useEffect } from 'react';
 import Routes from './app/routes';
 import { loadOnboardingState, loadProfileState } from './app/lib/persistence';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useAppStore } from './app/lib/store';
 
 export default function App() {
@@ -19,10 +20,12 @@ export default function App() {
   }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>  
       <NavigationContainer>
         <StatusBar style="light" />
         <Routes />
       </NavigationContainer>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
