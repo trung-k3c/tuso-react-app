@@ -4,6 +4,7 @@ import BreathingDot from '../components/BreathingDot';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { $ } from '../lib/store';
 
 const BREATH_PHASE_MS = 5000; // 2s hít / 2s thở
 const FULL_CYCLE_MS = BREATH_PHASE_MS * 2;
@@ -64,6 +65,17 @@ export default function TramChanKhongScreen() {
     outputRange: [0.4, 1, 0.4],
   });
 
+  const hasOnboarded = $.use((s) => s.hasOnboarded);
+  const hasProfileSetup = $.use((s) => s.hasProfileSetup);
+  const handleOpenGate = () => {
+    if (hasOnboarded && hasProfileSetup) {
+      navigation.navigate('Home');
+    } else if (hasOnboarded) {
+      navigation.navigate('ProfileSetup');
+    } else {
+      navigation.navigate('Onboarding');
+    }
+  };
   return (
     <View style={styles.container}>
       <Animated.Text style={[styles.title, { opacity: fade }]}>{QUOTES[idx]}</Animated.Text>
@@ -72,7 +84,7 @@ export default function TramChanKhongScreen() {
         <BreathingDot progress={breath} />
       </View>
 
-      <Pressable style={styles.openGate} onPress={() => navigation.navigate('Onboarding')}>
+      <Pressable style={styles.openGate} onPress={handleOpenGate}>
         <Text style={styles.openGateText}>Chạm để mở cổng</Text>
       </Pressable>
     </View>
