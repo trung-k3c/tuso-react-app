@@ -13,15 +13,8 @@ export default function SplashScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (!hasOnboarded) {
-        navigation.replace('TramChanKhong');
-      } else if (!hasProfileSetup) {
-        navigation.replace('Onboarding');
-      } else {
-        navigation.replace('Main', { screen: 'Home' });
-      }
+      navigation.replace('TramChanKhong');
     }, 1000);
-
     return () => clearTimeout(timer);
   }, [navigation, hasOnboarded, hasProfileSetup]);
 

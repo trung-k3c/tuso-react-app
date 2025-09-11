@@ -63,11 +63,11 @@ export default function TopNav({ title, onSearchPress, onBellPress }: Props) {
 }
 
 const HEIGHT = 56;
-const ICON_COLOR = '#0B0B0B';
+const ICON_COLOR = '#ffffffff';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#71F6C8',
+    backgroundColor: '#5AD1FF',
     ...Platform.select({
       ios: {
         shadowColor: '#000',
@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
   },
   title: {
     flexShrink: 1,
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '800',
     color: '#0B0B0B',
   },
   actions: {

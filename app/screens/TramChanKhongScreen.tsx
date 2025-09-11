@@ -52,7 +52,7 @@ export default function TramChanKhongScreen() {
   useEffect(() => {
     const id = setInterval(() => {
       setIdx((i) => (i + 1) % QUOTES.length);
-    }, FULL_CYCLE_MS);
+    }, BREATH_PHASE_MS);
     return () => clearInterval(id);
   }, [QUOTES.length]);
 
