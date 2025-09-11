@@ -67,7 +67,7 @@ const ICON_COLOR = '#0B0B0B';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#71F6C8',
     ...Platform.select({
       ios: {
         shadowColor: '#000',

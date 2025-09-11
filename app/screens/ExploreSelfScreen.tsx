@@ -1,7 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import TopNav from '../components/TopNav';
-import BottomNav from '../components/BottomNav';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types';
@@ -10,7 +8,6 @@ export default function ExploreSelfScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      {/* <TopNav title="Khám Phá Bản Thân" /> */}
       <View style={styles.content}>
         <Pressable
           style={styles.button}
@@ -31,7 +28,6 @@ export default function ExploreSelfScreen() {
           <Text style={styles.buttonText}>Tổng Hợp</Text>
         </Pressable>
       </View>
-      {/* <BottomNav /> */}
     </View>
   );
 }

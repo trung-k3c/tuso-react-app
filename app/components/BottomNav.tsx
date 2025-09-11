@@ -20,31 +20,25 @@ const TABS = [
 const TAB_HEIGHT = 60;
 
 // Lấy tên route sâu nhất trong nested navigator
-// Lấy tên route sâu nhất trong nested navigator
 function useCurrentMainRouteName() {
   return useNavigationState((state) => {
+    // state ở đây là của RootStack (vì BottomNav nằm ngoài ContentStack)
     const currentRoot = state.routes[state.index];
 
-    // Không đứng trong Main → không highlight
+    // Khi đang ở Shell, route hiện tại sẽ là "Main"
     if (currentRoot?.name !== 'Main') return null;
 
-    // 1) nếu nested state đã có → đi xuống route sâu nhất
     const getDeepest = (navState: any): string | null => {
       if (!navState || !navState.routes || typeof navState.index !== 'number') return null;
       const r = navState.routes[navState.index];
-      return r?.state ? getDeepest(r.state) : (r?.name ?? null);
+      // nếu còn lồng nữa thì đi tiếp
+      if (r?.state) return getDeepest(r.state);
+      return r?.name ?? null;
     };
 
+    // Nested state của route "Main"
     const nested = (currentRoot as any).state;
-    const nestedName = getDeepest(nested);
-    if (nestedName) return nestedName;
-
-    // 2) Fallback sớm theo intent: replace('Main', { screen: 'ExploreSelf' })
-    const intent = (currentRoot as any).params?.screen;
-    if (typeof intent === 'string') return intent;
-
-    // 3) Cuối cùng mới default
-    return 'Home';
+    return getDeepest(nested) ?? 'Home'; // default nếu state chưa kịp có
   });
 }
 
